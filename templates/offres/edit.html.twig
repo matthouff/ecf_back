@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'offre{% endblock %}
+
+{% block body %}
+    <a class="btn btn-primary float-end" href="{{ app.request.headers.get('referer')}}"><span class="fa-solid fa-arrow-left"></span></a>
+    <h1 class="mb-5">Modifier l'offre</h1>
+
+    {{ include('offres/_form_offre.html.twig', {'button_label': 'Update'}) }}
+
+    {{ include('offres/_delete_form.html.twig') }}
+{% endblock %}

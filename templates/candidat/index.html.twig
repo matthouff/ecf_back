@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des candidats{% endblock %}
+
+{% block body %}
+    <h1>Tous les candidats</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Type_contrat</th>
+            <th>Publié le</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for candidat in candidats %}
+            <tr>
+                <td>{{ candidat.firstname }}</td>
+                <td>{{ candidat.lastname }}</td>
+                <td>{{ candidat.email}}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('candidat_show', {'offre': candidat.offres.id, 'candidat': candidat.id}) }}"><span class="fa-solid fa-eye"></span></a>
+                    <a class="btn btn-primary" href="{{ path('candidat_edit', {'offre': candidat.offres.id, 'candidat': candidat.id}) }}"><span class="fa-solid fa-pencil"></span></a>
+                    <a class="btn btn-primary" href="{{ asset('/upload/' ~ candidat.cvcandidat) }}"><span class="fa-regular fa-id-card"></span></a>
+                    <form style="display: inline" method="post" action="{{ path('candidat_general_delete', {'candidat': candidat.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidat.id) }}">
+                        <button class="btn btn-danger"><span class="fa-solid fa-trash"></span></button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

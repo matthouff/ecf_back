@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toutes les offres{% endblock %}
+
+{% block body %}
+
+    <h1>Toutes les offres</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Type_contrat</th>
+                <th>Publié le</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for offre in offres %}
+            <tr>
+                <td>{{ offre.title }}</td>
+                <td>{{ offre.typeContrat }}</td>
+                <td>{{ offre.createdat ? offre.createdat|date('d-m-Y') : '' }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('offres_show', {'offre': offre.id, 'slug': offre.societe.slug}) }}"><span class="fa-solid fa-eye"></span></a>
+
+                    {% if is_granted('ROLE_USER') %}
+                        <a class="btn btn-primary" href="{{ path('candidats_index', {'offre': offre.id}) }}"><span class="fa-solid fa-folder-open"></span></a>
+                        <a class="btn btn-primary" href="{{ path('offres_edit', {'offre': offre.id}) }}"><span class="fa-solid fa-pencil"></span></a>
+                        <form style="display: inline" method="post" action="{{ path('offres_general_delete', {'offre': offre.id}) }}" onsubmit="return confirm('Êtes-vous sur de vouloir supprimer l\'offre ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ offre.id) }}">
+                            <button class="btn btn-danger"><span class="fa-solid fa-trash"></span></button>
+                        </form>
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

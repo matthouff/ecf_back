@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des sociétés{% endblock %}
+
+{% block body %}
+    <h1>Liste des sociétés</h1>
+
+    <a class="btn btn-primary my-4" href="{{ path('societe_new') }}">Ajouter un société</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" class="col-1">Logo</th>
+                <th scope="col" class="col-3">Name</th>
+                <th scope="col">City</th>
+                <th scope="col" class="col-2">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for societe in societes %}
+            <tr>
+                <td><div style="border-radius: 10px; height: 70px; width: fit-content; padding: 10px; background-color:{{ societe.logoColor }};"><img style="height: 100%; width: 100%; object-fit: contain" src="{{ asset('/upload/' ~ societe.logo) }}" alt=""></div></td>
+                <td>{{ societe.name }}</td>
+                <td>{{ societe.city }}</td>
+                <td>
+                    <a href="{{ path('societe_show', {'slug': societe.slug}) }}" class="btn btn-primary"><span class="fa-solid fa-eye"></span></a>
+                    <a class="btn btn-primary" href="{{ path('offres_societe_index', {'slug': societe.slug}) }}"><span class="fa-solid fa-folder-open"></span></a>
+                    <a href="{{ path('societe_edit', {'slug': societe.slug}) }}" class="btn btn-primary"><span class="fa-solid fa-pencil"></span></a>
+                    <form style="display: inline" method="post" action="{{ path('societe_delete', {'societe': societe.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ societe.id) }}">
+                        <button class="btn btn-danger"><span class="fa-solid fa-trash"></span></button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary mt-4" href="{{ path('societe_new') }}">Ajouter un société</a>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offres {{ offre.title }}{% endblock %}
+
+{% block body %}
+
+
+    <a class="btn btn-primary float-end" href="{{ path('societe_show', {'slug': offre.societe.slug}) }}"><span class="fa-solid fa-arrow-left"></span></a>
+
+
+
+
+    <h1>{{ offre.title }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Title</th>
+                <td>{{ offre.title }}</td>
+            </tr>
+            <tr>
+                <th>Type_contrat</th>
+                <td>{{ offre.typeContrat }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ offre.description }}</td>
+            </tr>
+            <tr>
+                <th>Profil_desc</th>
+                <td>{{ offre.profilDesc }}</td>
+            </tr>
+            <tr>
+                <th>Profil_comp</th>
+                <td>{{ offre.profilComp }}</td>
+            </tr>
+            <tr>
+                <th>Poste_desc</th>
+                <td>{{ offre.posteDesc }}</td>
+            </tr>
+            <tr>
+                <th>Poste_mission</th>
+                <td>{{ offre.posteMission }}</td>
+            </tr>
+            <tr>
+                <th>Site de l'offre</th>
+                <td><a href="{{ path('candidat_new', {'offre': offre.id}) }}">{{ offre.websiteOffre }}</a></td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{{ offre.createdat ? offre.createdat|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Société</th>
+                <td><a href="{{ path('societe_show', {'slug': offre.societe.slug}) }}">{{ offre.societe.name }}</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted("ROLE_USER") %}
+        <a class="btn btn-primary" href="{{ path('offres_edit', {'offre': offre.id}) }}">Modifier</a>
+        <a class="btn btn-primary float-end" href="{{ path('candidats_index', {'offre': offre.id}) }}">Liste des candidats</a>
+        {{ include('offres/_delete_form.html.twig') }}
+    {% else %}
+        <a class="btn btn-primary" href="{{ path('candidat_new', {'offre': offre.id}) }}">Postuler</a>
+    {% endif %}
+
+{% endblock %}

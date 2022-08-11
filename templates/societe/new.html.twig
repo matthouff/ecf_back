@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte{% endblock %}
+
+{% block body %}
+    <h1>Créer un compte</h1>
+
+    {{ include('societe/_form.html.twig') }}
+
+    <a href="{{ path('societe_index') }}">back to list</a>
+{% endblock %}

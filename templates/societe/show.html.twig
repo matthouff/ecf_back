@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Societe {{ societe.name }}{% endblock %}
+
+{% block body %}
+
+
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-primary float-end" href="{{ path('societe_index') }}"><span class="fa-solid fa-arrow-left"></span></a>
+    {% elseif is_granted('ROLE_USER') %}
+        <a class="btn btn-primary float-end" href="{{ path('home_index') }}"><span class="fa-solid fa-arrow-left"></span></a>
+    {% else %}
+        <a class="btn btn-primary float-end" href="{{ path('offres_index') }}"><span class="fa-solid fa-arrow-left"></span></a>
+    {% endif %}
+
+
+
+    <div class="mb-5 gap-3" style="display: flex; align-items: flex-end">
+        <div class="cont-img" style="width: 100px; height: 100px; padding: 15px; border-radius: 50%; background-color: {{societe.logoColor}} ;">
+            <img style="height: 100%; width: 100%; object-fit: contain" src="{{asset('/upload/' ~ societe.logo)}}" alt="Logo de la société {{ societe.name }}">
+        </div>
+        <h1>{{ societe.name }}</h1>
+    </div>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>City</th>
+                <td>{{ societe.city }}</td>
+            </tr>
+            <tr>
+                <th>Website</th>
+                <td>{{ societe.website }}</td>
+            </tr>
+            <tr>
+                <th>Firstname_contact</th>
+                <td>{{ societe.firstnameContact }}</td>
+            </tr>
+            <tr>
+                <th>Lastname_contact</th>
+                <td>{{ societe.lastnameContact }}</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ societe.mail }}</td>
+            </tr>
+            <tr>
+                <th>Mobile_contact</th>
+                <td>{{ societe.mobileContact }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary float-end" href="{{ path('offres_societe_index', {'slug': societe.slug}) }}">Liste des offres</a>
+    {% if is_granted('ROLE_USER') %}
+        <a class="btn btn-primary mb-4" href="{{ path('societe_edit', {'slug': societe.slug}) }}">Modifier</a>
+        <a class="btn btn-primary mb-4" href="{{ path('offre_new', {'slug': societe.slug}) }}">Nouvelle offre</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            {{ include('societe/_delete_form.html.twig') }}
+        {% endif %}
+    {% endif %}
+
+
+
+{% endblock %}

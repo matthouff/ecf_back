@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier{% endblock %}
+
+{% block body %}
+    <a class="btn btn-primary float-end" href="{{ app.request.headers.get('referer')}}"><span class="fa-solid fa-arrow-left"></span></a>
+    <h1 class="mb-5">Modifier</h1>
+
+
+    {{ include('societe/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+{% endblock %}

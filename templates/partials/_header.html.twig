@@ -1,0 +1,74 @@
+<header style="z-index: 2">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid px-5 container">
+            <a class="navbar-brand" href="{{ path('home_index') }}">Dev Jobs</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        {% if app.user %}
+                            <a class="nav-link active" href="{{ path('home_index') }}">Mon espace</a>
+                        {% else %}
+                            <a class="nav-link active" href="{{ path('home_index') }}">Accueil</a>
+                        {% endif %}
+                    </li>
+
+                    {% if is_granted("ROLE_USER") %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('offres_societe_index', {'slug': app.user.slug}) }}">Mes offres</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('societe_show', {'slug': app.user.slug}) }}">Mes informations</a>
+                        </li>
+                    {% endif %}
+
+
+                    {% if is_granted('ROLE_ADMIN') or not is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('offres_index') }}">Toutes les offres</a>
+                        </li>
+                    {% endif %}
+
+
+                    {% if app.user and is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('societe_index') }}">Sociétés</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('candidat_index') }}">Candidats</a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+
+                {% if app.user and is_granted('ROLE_USER')%}
+
+                    <!-- MENU DE LA SOCIÉTÉ -->
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="false">Options</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('societe_edit', {'slug': app.user.slug}) }}">Modifier mon profil</a>
+                            <a class="dropdown-item" href="{{ path('societe_update_password', {'slug': app.user.slug}) }}">Modifier mon mot de passe</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-warning" href="{{ path('app_logout') }}">Se déconnecter</a>
+                            <div class="dropdown-divider"></div>
+                            <form method="post" action="{{ path('societe_delete', {'societe': app.user.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
+                                <button class="dropdown-item text-danger">Supprimer mon compte</button>
+                            </form>
+                        </div>
+                    </div>
+
+                {% elseif not is_granted('ROLE_USER') %}
+                    <div class="d-flex align-items-center gap-4">
+                        <a href="{{path('societe_new')}}" class="btn btn-secondary">S'inscrire</a>
+                        <a href="{{ path('societe_login') }}" style="color: #fff; text-decoration: none;">Se connecter</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</header>

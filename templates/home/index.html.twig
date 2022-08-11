@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+    {% if app.user %}
+
+        <h1 class="mb-4" style="text-align: center">Mon espace</h1>
+
+        <div style="display: flex; align-items: flex-end">
+            <div class="cont-img" style="width: 100px; height: 100px; padding: 15px; border-radius: 50%; background-color: {{app.user.logoColor}} ;">
+                <img style="height: 100%; width: 100%; object-fit: contain" src="{{asset('/upload/' ~ app.user.logo)}}" alt="">
+            </div>
+            <h2 style="font-size: 40px; margin-left: 15px">{{ app.user.name }}</h2>
+        </div>
+
+        {% if app.user.offres|length > 0 %}
+            <h2 class="mt-5 text-muted" style="font-size: 30px">Vos dernières offres</h2>
+            <hr>
+            <a href="{{ path('offres_societe_index', {'slug': app.user.slug}) }}">Toutes vos offres</a>
+        {% endif %}
+
+        <section class="row mt-4 mb-5">
+            {% for offre in app.user.offres %}
+                <div class="card col-3">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ offre.title }}</h3>
+                        <p class="card-subtitle mb-2 text-muted">{{ offre.createdAt | date('d/m/Y') }}</p>
+                        <p>{{ offre.description }}</p>
+                        <a class="btn btn-primary" href="{{ path('offres_show', {'offre': offre.id, 'slug': app.user.slug}) }}">Voir l'offre</a>
+                    </div>
+                </div>
+            {% else %}
+                <strong class="mt-5">Aucune offre n'a été posté</strong>
+                <a style="width: fit-content" class="btn btn-primary mb-4 mt-5" href="{{ path('offre_new', {'slug': app.user.slug}) }}">Ajouter une offre</a>
+            {% endfor %}
+        </section>
+
+    {% else %}
+        <style>
+            .alert.alert-success{
+                position: relative;
+                z-index: 10000;
+            }
+            .home-div{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-image: radial-gradient(#fff, #000c);
+                z-index: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 100px;
+            }
+            .home-div > div{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            h1{
+                position: relative;
+                text-align: center;
+                z-index: 2;
+                color: #fff;
+            }
+        </style>
+
+        <h1>Bienvenue sur Dev Jobs</h1>
+
+        <div class="home-div">
+            <div class="home-left">
+                <p>Déjà un compte ?</p>
+                <a class="btn btn-primary" href="{{ path('societe_login') }}">Se connecter</a>
+            </div>
+            <div class="home-right">
+                <p>Pas encore inscrit !!! ?</p>
+                <a class="btn btn-primary" href="{{ path('societe_new') }}">S'inscrire</a>
+            </div>
+            <div class="home-right">
+                <p>À la recherche d'un emploi ?</p>
+                <a class="btn btn-primary" href="{{ path('offres_index') }}">Voir les offres</a>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

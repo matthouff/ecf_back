@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ candidat.firstname }}{% endblock %}
+
+{% block body %}
+
+
+    <!-- Vérifie juste si une url précédente existe pour revenir sur la page précédente, sinon le retour se fait sur l'index des offres -->
+
+    <a class="btn btn-primary float-end" href="{{ app.request.headers.get('referer')}}"><span class="fa-solid fa-arrow-left"></span></a>
+
+
+
+
+    <h1>{{ candidat.firstname }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ candidat.firstname }}</td>
+            </tr>
+            <tr>
+                <th>nom</th>
+                <td>{{ candidat.lastname }}</td>
+            </tr>
+            <tr>
+                <th>mobile</th>
+                <td>{{ candidat.mobile }}</td>
+            </tr>
+            <tr>
+                <th>email</th>
+                <td>{{ candidat.email }}</td>
+            </tr>
+            <tr>
+                <th>CV</th>
+                <td>
+                    <a href="{{ asset('/upload/' ~ candidat.cvcandidat) }}">Voir le cv</a></td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{{ candidat.createdat ? candidat.createdat|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+{% endblock %}
