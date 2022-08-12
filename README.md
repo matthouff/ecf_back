@@ -2,12 +2,12 @@
 
 ## 1. Téléchargement ou clonage du projet
 **Téléchargement du zip :**  
-Vous pouvez télécharger le [zip du projet](https://gitlab.cefim-formation.org/MBerthelot/ecf_back_berthelot_matthias/-/archive/master/ecf_back_berthelot_matthias-master.zip).
+Vous pouvez télécharger le [zip du projet](https://github.com/matthouff/ecf_back/archive/refs/heads/main.zip).
 <br><br>
 **Cloner le projet via les lignes de commandes :**  
 Pour cloner le fichier il vous suffit d'entrer la commande suivante à partir du fichier que vous voulez:  
 ```
-git clone --branch master https://gitlab.cefim-formation.org/MBerthelot/ecf_back_berthelot_matthias.git
+git clone https://github.com/matthouff/ecf_back.git
 ```
 <br>  
 
